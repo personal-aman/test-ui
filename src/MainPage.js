@@ -27,7 +27,7 @@ const MainPage = () => {
         console.log('Sanitized Transcript:', sanitizedTranscript); // Optional: For debugging
         setIsLoading(true);
         try {
-            const response = await axios.post('http://llm.advanceanalytics.ai/api/transcription/', { text: sanitizedTranscript });
+            const response = await axios.post('https://llm.advanceanalytics.ai/api/transcription/', { text: sanitizedTranscript });
             setTranscriptId(response.data.transcript_id);
             console.log('Transcript saved with ID:', response.data.transcript_id);
             setStatus({ stage1: 'yet to start', stage2: 'yet to start' }); // Reset stages status
@@ -46,7 +46,7 @@ const MainPage = () => {
         setStatus({ ...status, stage1: 'processing' });
         setIsLoading(true);
         try {
-            await axios.post('http://llm.advanceanalytics.ai/api/classification/', { transcript_id: transcriptId });
+            await axios.post('https://llm.advanceanalytics.ai/api/classification/', { transcript_id: transcriptId });
             setStatus({ ...status, stage1: 'done' });
         } catch (error) {
             console.error('Error in Stage 1:', error);
@@ -67,7 +67,7 @@ const MainPage = () => {
         setStatus({ ...status, stage2: 'processing' });
         setIsLoading(true);
         try {
-            await axios.post('http://llm.advanceanalytics.ai/api/rating/', { transcript_id: transcriptId });
+            await axios.post('https://llm.advanceanalytics.ai/api/rating/', { transcript_id: transcriptId });
             setStatus({ ...status, stage2: 'done' });
         } catch (error) {
             console.error('Error in Stage 2:', error);
@@ -82,7 +82,7 @@ const MainPage = () => {
             return;
         }
         try {
-            const response = await axios.get(`http://llm.advanceanalytics.ai/api/results/${transcriptId}`);
+            const response = await axios.get(`https://llm.advanceanalytics.ai/api/results/${transcriptId}`);
             setResults(response.data);
             console.log('Results:', response.data);
         } catch (error) {
