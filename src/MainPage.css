@@ -1,0 +1,128 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.section {
+    margin: 10px;
+    padding: 20px;
+}
+
+.transcript, .results-box {
+    background-color: #ffeb3b;
+    flex: 1 0 90%;
+    text-align: center;
+    padding: 10px;
+}
+
+.save-transcript,.see-results button,.buttons button, .status div, .results-box {
+    background-color: #2196f3;
+    color: white;
+    flex: 0 0 auto;
+    padding: 10px;
+    text-align: center;
+    margin: 5px 0;
+}
+
+.section.transcript textarea {
+    width: 100%;
+    height: 300px; /* Adjust height to make sure a large transcript fits */
+}
+
+.buttons, .status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0;
+    padding: 0;
+}
+
+.buttons button, .status div {
+    margin: 5px 0;
+}
+
+.results-box {
+    background-color: #4caf50;
+    padding: 20px;
+    color: black;
+    text-align: center;
+    width: 100%;
+}
+
+/* Additional Grid Styling */
+.main-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto auto auto 1fr auto;
+    grid-gap: 10px;
+}
+
+.section.transcript {
+    grid-column: 1 / 2;
+    grid-row: 2;
+}
+
+.section.save-transcript {
+    grid-column: 2 / 3;
+    grid-row: 2;
+}
+
+.section.buttons {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.section.status {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+.section.see-results {
+    grid-column: 1;
+    grid-row: 4;
+}
+
+/*.section.results-box {*/
+/*    grid-column: 1;*/
+/*    grid-row: 4;*/
+/*}*/
+
+/* General table styles */
+.results-box table {
+    width: 100%; /* Make the table take up the full width of the container */
+    border-collapse: collapse; /* Merge adjacent borders to remove spacing between cells */
+    margin-top: 20px;
+}
+
+/* Table header styles */
+.results-box th {
+    background-color: #2196f3; /* Background color for header cells */
+    color: black; /* Text color for header cells */
+    padding: 10px; /* Padding inside header cells */
+    text-align: left; /* Align text to the left */
+    border: 1px solid #ddd; /* Border styling for header cells */
+}
+
+/* Table body styles */
+.results-box td {
+    background-color: #fff; /* Background color for body cells */
+    padding: 10px; /* Padding inside body cells */
+    text-align: left; /* Align text to the left */
+    border: 1px solid #ddd; /* Border styling for body cells */
+}
+
+/* Alternate row colors for better readability */
+.results-box tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray background for even rows */
+}
+
+/* Hover effect on table rows */
+.results-box tr:hover {
+    background-color: #ddd; /* Change background color on hover */
+}
