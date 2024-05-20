@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './MainPage.css';
 import axios from 'axios';
 
@@ -28,9 +28,11 @@ const MainPage = () => {
         setIsLoading(true);
         try {
             const response = await axios.post('https://llm.advanceanalytics.ai/api/transcription/', { text: sanitizedTranscript });
-            setTranscriptId(response.data.transcript_id);
+            await setTranscriptId(response.data.transcript_id);
             console.log('Transcript saved with ID:', response.data.transcript_id);
-            setStatus({ stage1: 'yet to start', stage2: 'yet to start' }); // Reset stages status
+            await setStatus({ stage1: 'yet to start', stage2: 'yet to start' });
+            setTimeout(()=>{handleStage1(response.data.transcript_id)}, 1000);
+            // Reset stages status
         } catch (error) {
             console.error('Error saving transcript:', error);
         } finally {
@@ -38,20 +40,34 @@ const MainPage = () => {
         }
     };
 
-    const handleStage1 = async () => {
+    useEffect(() => {
+        if (status.stage1 === 'done') {
+            handleStage2();
+        }
+    }, [status.stage1]);
+
+    useEffect(() => {
+        if (status.stage2 === 'done') {
+            handleSeeResults();
+        }
+    }, [status.stage2]);
+    const handleStage1 = async (transId=0) => {
         if (!transcriptId) {
-            alert('Please save the transcript first.');
-            return;
+            if(!transId) {
+                alert('Please save the transcript first.');
+                return;
+            }
         }
         setStatus({ ...status, stage1: 'processing' });
         setIsLoading(true);
         try {
-            await axios.post('https://llm.advanceanalytics.ai/api/classification/', { transcript_id: transcriptId });
+            await axios.post('https://llm.advanceanalytics.ai/api/classification/', { transcript_id: transcriptId || transId });
             setStatus({ ...status, stage1: 'done' });
         } catch (error) {
             console.error('Error in Stage 1:', error);
         } finally {
             setIsLoading(false);
+            // setTimeout(()=>{ handleStage2()}, 6000);
         }
     };
 
@@ -67,12 +83,13 @@ const MainPage = () => {
         setStatus({ ...status, stage2: 'processing' });
         setIsLoading(true);
         try {
-            await axios.post('https://llm.advanceanalytics.ai/api/rating/', { transcript_id: transcriptId });
+            await axios.post('https://llm.advanceanalytics.ai/api/rating/', { transcript_id: transcriptId});
             setStatus({ ...status, stage2: 'done' });
         } catch (error) {
             console.error('Error in Stage 2:', error);
         } finally {
             setIsLoading(false);
+            // setTimeout(()=>{handleSeeResults()}, 6000);
         }
     };
 
